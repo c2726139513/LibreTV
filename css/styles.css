@@ -54,11 +54,16 @@ button, .card-hover {
 
 /* 针对不同长度的标题优化显示 */
 .card-hover h3 {
-    min-height: 3rem;  /* 至少能显示2行标题 */
+    min-height: 3rem;
     display: -webkit-box;
     -webkit-box-orient: vertical;
     overflow: hidden;
-    -webkit-line-clamp: 2; /* 最多显示2行 */
+    text-overflow: ellipsis;
+    -webkit-line-clamp: 2;
+    max-height: 3rem; /* 确保最多显示两行 */
+    line-height: 1.5rem; /* 设定行高以确保两行文本的一致性 */
+    word-break: break-word; /* 允许在任何字符间断行 */
+    hyphens: auto; /* 允许断词 */
 }
 
 .card-hover::before {
@@ -761,4 +766,19 @@ body {
 .position-restore-hint.show {
     opacity: 1;
     transform: translateX(-50%) translateY(0);
+}
+
+/* 锁定控制时屏蔽交互 */
+.player-container.controls-locked .dplayer-controller,
+.player-container.controls-locked .dplayer-mask,
+.player-container.controls-locked .dplayer-bar-wrap,
+.player-container.controls-locked .dplayer-statusbar,
+.player-container.controls-locked .shortcut-hint {
+    opacity: 0 !important;
+    pointer-events: none !important;
+}
+/* 保留锁按钮可见可点 */
+.player-container.controls-locked #lockToggle {
+    opacity: 1 !important;
+    pointer-events: auto !important;
 }
