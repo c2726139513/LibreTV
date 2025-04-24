@@ -1,6 +1,11 @@
 // 全局常量配置
-const PROXY_URL = '/proxy/';    // 适用于 Cloudflare, Netlify (带重写), Vercel (带重写)
+// const PROXY_URL = '/proxy/';    // 适用于 Cloudflare, Netlify (带重写), Vercel (带重写)
 // const HOPLAYER_URL = 'https://hoplayer.com/index.html';
+const PROXY_URL = 'https://api.codetabs.com/v1/proxy?quest=';
+ // https://crossorigin.me/
+ // https://cors-proxy.htmldriven.com/?url=
+ // http://alloworigin.com/get?url=
+ // https://api.allorigins.win/get?url=
 const SEARCH_HISTORY_KEY = 'videoSearchHistory';
 const MAX_HISTORY_ITEMS = 5;
 
