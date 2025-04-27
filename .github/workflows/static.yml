@@ -33,7 +33,7 @@ jobs:
         uses: actions/checkout@v4
       - name: Add PASSWORD
         run: |
-          sed -i "s/window.__ENV__.PASSWORD = \"{{PASSWORD}}\";/window.__ENV__.PASSWORD = \"${{ secrets.PASSWORD }}\";/g" ${{ github.workspace }}/index.html
+          sed -i "s/window.__ENV__.PASSWORD = \"{{PASSWORD}}\";/window.__ENV__.PASSWORD = \"${{ secrets.PASSWORD }}\";/g" ${{ github.workspace }}/*.html
       - name: Setup Pages
         uses: actions/configure-pages@v5
       - name: Upload artifact
