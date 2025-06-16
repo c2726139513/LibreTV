@@ -1,3 +1,41 @@
+/* 
+LibreTV 全局样式
+包含多个页面共享的基础样式
+对于特定页面的样式，请参考:
+- index.css: 首页特定样式
+- player.css: 播放器页面特定样式
+- watch.css: 重定向页面特定样式
+- modals.css: 模态框和提示框样式
+*/
+
+.close-btn {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    background: #222;
+    border: 1px solid #333;
+    border-radius: 8px;
+    padding: 6px;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    z-index: 10;
+}
+
+.close-btn:hover {
+    background: #333;
+    border-color: #555;
+}
+
+.close-btn svg {
+    width: 16px;
+    height: 16px;
+    stroke: currentColor;
+}
+
 :root {
     /* 赛博影视主题配色方案 - 柔和版 */
     --primary-color: #00ccff;       /* 霓虹蓝主色调 */
@@ -47,21 +85,21 @@ button, .card-hover {
 
 /* 确保卡片内容区域高度一致性 */
 .card-hover .flex-grow {
-    min-height: 90px;
+    min-height: unset; /* 移除最小高度限制，让内容自然流动 */
     display: flex;
     flex-direction: column;
 }
 
 /* 针对不同长度的标题优化显示 */
 .card-hover h3 {
-    min-height: 3rem;
+    min-height: unset;
+    max-height: unset;
     display: -webkit-box;
     -webkit-box-orient: vertical;
     overflow: hidden;
     text-overflow: ellipsis;
     -webkit-line-clamp: 2;
-    max-height: 3rem; /* 确保最多显示两行 */
-    line-height: 1.5rem; /* 设定行高以确保两行文本的一致性 */
+    line-height: 1.2rem;
     word-break: break-word; /* 允许在任何字符间断行 */
     hyphens: auto; /* 允许断词 */
 }
@@ -118,16 +156,6 @@ button, .card-hover {
 .settings-panel::-webkit-scrollbar-thumb {
     background-color: #444;
     border-radius: 4px;
-}
-
-/* 设置面板区块样式 */
-.settings-panel .shadow-inner {
-    box-shadow: inset 0 2px 4px rgba(0,0,0,0.3);
-    transition: all 0.2s ease-in-out;
-}
-
-.settings-panel .shadow-inner:hover {
-    box-shadow: inset 0 2px 8px rgba(0,0,0,0.4);
 }
 
 .search-button {
@@ -259,13 +287,13 @@ body {
     border-radius: 8px;
 }
 
-#modalContent button {
+#episodesGrid button {
     background: rgba(0, 204, 255, 0.08);
     border: 1px solid rgba(0, 204, 255, 0.2);
     transition: all 0.2s ease;
 }
 
-#modalContent button:hover {
+#episodesGrid button:hover {
     background: rgba(0, 204, 255, 0.15);
     border-color: var(--primary-color);
     box-shadow: 0 0 8px rgba(0, 204, 255, 0.3);
@@ -523,7 +551,6 @@ body {
 .filter-disabled > * {
     opacity: 1; /* 提高子元素不透明度，保证可见性 */
     z-index: 6; /* 确保内容在遮罩上方 */
-    position: relative;
 }
 
 /* 改进过滤器禁用状态下的描述样式 */
@@ -781,4 +808,222 @@ body {
 .player-container.controls-locked #lockToggle {
     opacity: 1 !important;
     pointer-events: auto !important;
+}
+
+/* 播放器顶部header移动端优化 */
+.player-header {
+    gap: 0.5rem;
+}
+.custom-title-scroll {
+    overflow-x: auto;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+}
+.custom-title-scroll::-webkit-scrollbar {
+    display: none;
+}
+.logo-text {
+    display: inline;
+}
+.home-btn-text {
+    display: inline;
+}
+@media (max-width: 640px) {
+    .logo-text {
+        display: none;
+    }
+    .home-btn-text {
+        display: none;
+    }
+    .logo-icon {
+        margin-right: 0;
+    }
+    .home-btn svg {
+        margin-right: 0;
+    }
+    .player-header {
+        padding-left: 2px !important;
+        padding-right: 2px !important;
+    }
+    .custom-title-scroll {
+        font-size: 1rem;
+    }
+}
+
+/* 搜索结果卡片优化：横向布局 */
+.search-card-img-container {
+    width: 100px;  /* 增加宽度，从80px到100px */
+    height: 150px; /* 增加高度，从120px到150px */
+    overflow: hidden;
+    background-color: #191919;
+}
+
+/* 确保图片不会被拉伸，并且能够正确显示 */
+.search-card-img-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* 针对搜索结果卡片修改网格布局以适应横向卡片 */
+@media (max-width: 640px) {
+    #results {
+        grid-template-columns: repeat(1, minmax(0, 1fr)) !important;
+    }
+}
+
+/* 响应式调整：在小屏幕上依然保持较好的视觉效果 */
+@media (min-width: 641px) and (max-width: 768px) {
+    #results {
+        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    }
+}
+
+/* 调整网格布局，减少每行卡片数量以适应更大尺寸的卡片 */
+@media (min-width: 769px) and (max-width: 1024px) {
+    #results {
+        grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    }
+}
+
+@media (min-width: 1025px) {
+    #results {
+        grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+    }
+}
+
+/* 优化卡片内元素间距 */
+.card-hover .p-2 {
+    padding: 0.75rem; /* 增加内边距 */
+}
+
+/* 增加卡片内字体大小 */
+.card-hover h3 {
+    font-size: 0.95rem; /* 增加标题字体大小 */
+    line-height: 1.3rem;
+    margin-bottom: 0.5rem;
+}
+
+.card-hover p {
+    font-size: 0.8rem; /* 增加描述字体大小 */
+}
+
+/* 优化卡片内元素间距 */
+.card-hover .p-2 {
+    padding: 0.5rem;
+}
+
+/* 确保Toast显示在顶层并有适当的转换效果 */
+#toast {
+    z-index: 9999; /* 确保显示在最上层 */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    min-width: 200px;
+    text-align: center;
+    pointer-events: none; /* 防止toast阻挡点击事件 */
+    transform: translateX(-50%) translateY(0);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+#toast.hidden {
+    opacity: 0;
+    transform: translateX(-50%) translateY(-100%);
+}
+
+/* 详情模态框样式优化 */
+#modal .modal-detail-info {
+    background: linear-gradient(135deg, #0a0a0a, #111);
+    border: 1px solid #222;
+    border-radius: 8px;
+    padding: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+#modal .detail-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+    font-size: 0.875rem;
+}
+
+@media (min-width: 768px) {
+    #modal .detail-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+#modal .detail-item {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+#modal .detail-label {
+    color: #9ca3af;
+    font-weight: 500;
+    min-width: 3rem;
+    flex-shrink: 0;
+}
+
+#modal .detail-value {
+    color: white;
+    flex: 1;
+    word-break: break-word;
+}
+
+#modal .detail-desc {
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid #333;
+}
+
+#modal .detail-desc-content {
+    color: #d1d5db;
+    font-size: 0.875rem;
+    line-height: 1.6;
+    max-height: 8rem;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: #444 #222;
+}
+
+#modal .detail-desc-content::-webkit-scrollbar {
+    width: 6px;
+}
+
+#modal .detail-desc-content::-webkit-scrollbar-track {
+    background: #222;
+    border-radius: 4px;
+}
+
+#modal .detail-desc-content::-webkit-scrollbar-thumb {
+    background-color: #444;
+    border-radius: 4px;
+}
+
+/* 集数统计信息样式 */
+#modal .episode-stats {
+    color: #9ca3af;
+    font-size: 0.875rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+/* 移动端优化 */
+@media (max-width: 640px) {
+    #modal .detail-grid {
+        gap: 0.5rem;
+        font-size: 0.8rem;
+    }
+    
+    #modal .detail-label {
+        min-width: 2.5rem;
+    }
+    
+    #modal .detail-desc-content {
+        max-height: 6rem;
+        font-size: 0.8rem;
+    }
 }
