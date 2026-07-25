@@ -1,0 +1,91 @@
+{
+  "name": "libretv",
+  "description": "LibreTV - 免费在线视频搜索与观看平台",
+  "buildCommand": "",
+  "installCommand": "npm install",
+  "outputDirectory": ".",
+  "nodeVersion": "22.11.0",
+  "redirects": [],
+  "rewrites": [
+    {
+      "source": "/",
+      "destination": "/api/env/index"
+    },
+    {
+      "source": "/index.html",
+      "destination": "/api/env/index"
+    },
+    {
+      "source": "/player.html",
+      "destination": "/api/env/player"
+    },
+    {
+      "source": "/s=:query",
+      "destination": "/api/env/index"
+    },
+    {
+      "source": "/proxy/:path*",
+      "destination": "/api/proxy/:path*"
+    }
+  ],
+  "headers": [
+    {
+      "source": "/*",
+      "headers": [
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        },
+        {
+          "key": "X-Frame-Options",
+          "value": "SAMEORIGIN"
+        },
+        {
+          "key": "X-XSS-Protection",
+          "value": "1; mode=block"
+        }
+      ]
+    },
+    {
+      "source": "/libs/*",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        }
+      ]
+    },
+    {
+      "source": "/css/*",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        }
+      ]
+    },
+    {
+      "source": "/js/*",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        }
+      ]
+    },
+    {
+      "source": "/image/*",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        }
+      ]
+    }
+  ],
+  "cloudFunctions": {
+    "nodejs": {
+      "maxDuration": 30
+    }
+  }
+}
