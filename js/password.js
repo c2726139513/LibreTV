@@ -240,6 +240,24 @@ function initPasswordProtection() {
 }
 
 // 在页面加载完成后初始化密码保护
-document.addEventListener('DOMContentLoaded', function () {
+// 优先从服务端注入的环境变量读取密码哈希
+// 如果环境变量不存在(如 EdgeOne 静态部署)，则从 /api/env/password API 获取
+document.addEventListener('DOMContentLoaded', async function () {
+    // 尝试从 API 获取密码哈希（如果页面中没有注入有效的密码哈希）
+    if (!isPasswordProtected()) {
+        try {
+            const res = await fetch('/api/env/password');
+            if (res.ok) {
+                const data = await res.json();
+                if (data.hash) {
+                    window.__ENV__ = window.__ENV__ || {};
+                    window.__ENV__.PASSWORD = data.hash;
+                }
+            }
+        } catch (e) {
+            // API 不可用（如 Vercel/Netlify 等平台无此端点），回退到环境变量注入的方式
+            console.debug('Password API unavailable, using injected env var');
+        }
+    }
     initPasswordProtection();
 });

@@ -8,22 +8,6 @@
   "redirects": [],
   "rewrites": [
     {
-      "source": "/",
-      "destination": "/api/env/index"
-    },
-    {
-      "source": "/index.html",
-      "destination": "/api/env/index"
-    },
-    {
-      "source": "/player.html",
-      "destination": "/api/env/player"
-    },
-    {
-      "source": "/s=:query",
-      "destination": "/api/env/index"
-    },
-    {
       "source": "/proxy/:path*",
       "destination": "/api/proxy/:path*"
     }
