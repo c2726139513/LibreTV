@@ -1,10 +1,17 @@
-// /cloud-functions/api/env/[page].mjs
+// /cloud-functions/api/env/[page].js (ESM via "type": "module" in package.json)
 // EdgeOne Cloud Function: Inject environment variables into HTML pages
 // Rewrites from edgeone.json route /, /index.html, /player.html, /s=* to this function
 
 import fs from 'fs';
 import path from 'path';
 import crypto from 'crypto';
+import { fileURLToPath } from 'url';
+
+// Resolve project root relative to this function file
+// File is at: cloud-functions/api/env/[page].js
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+const PROJECT_ROOT = path.resolve(__dirname, '..', '..', '..');
 
 /**
  * Compute SHA-256 hex digest (same as other platforms)
@@ -35,13 +42,9 @@ export default async function onRequest(context) {
   const page = params.page; // 'index' or 'player' — from dynamic route [page]
 
   // Determine which HTML file to serve
-  const projectRoot = process.cwd();
-  let htmlFile;
-  if (page === 'player') {
-    htmlFile = path.join(projectRoot, 'player.html');
-  } else {
-    htmlFile = path.join(projectRoot, 'index.html');
-  }
+  const htmlFile = page === 'player'
+    ? path.join(PROJECT_ROOT, 'player.html')
+    : path.join(PROJECT_ROOT, 'index.html');
 
   try {
     const password = env.PASSWORD || '';
@@ -56,6 +59,6 @@ export default async function onRequest(context) {
     });
   } catch (error) {
     console.error('Error serving HTML page:', error);
-    return new Response('Internal Server Error', { status: 500 });
+    return new Response(`Internal Server Error: ${error.message}`, { status: 500 });
   }
 }
