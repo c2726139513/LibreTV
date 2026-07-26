@@ -8,6 +8,14 @@
   "redirects": [],
   "rewrites": [
     {
+      "source": "/",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/s=:query",
+      "destination": "/index.html"
+    },
+    {
       "source": "/proxy/:path*",
       "destination": "/api/proxy/:path*"
     }
